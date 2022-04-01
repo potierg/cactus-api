@@ -36,7 +36,11 @@ const environment_json_1 = __importDefault(require("../environment/environment.j
 const app = express.default();
 const port = process.env.PORT || environment_json_1.default.apiPort;
 const server = http.createServer(app);
-const io = new socketio.Server(server);
+const io = new socketio.Server(server, {
+    cors: {
+        origin: ["http://localhost:5000", "sheltered-ravine-51287.herokuapp.com"],
+    },
+});
 const gameServer = new gameServer_1.GameServer(io);
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
