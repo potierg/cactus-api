@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import config from '../environment/environment.json';
 
 const app = express();
-const port = config.apiPort; // default port to listen
+const port = process.env.PORT || config.apiPort; // default port to listen
 
 const io = new Server(config.socketPort, { cors: { origin: '*' } });
 
