@@ -800,7 +800,7 @@ const home_1 = require("./home");
 const cactus_1 = require("./cactus");
 const gameRenderer_1 = require("./gameRenderer");
 const app_1 = require("./app");
-const socket = (0, socket_io_client_1.io)('ws://localhost:5000');
+const socket = (0, socket_io_client_1.io)('sheltered-ravine-51287.herokuapp.com');
 let homeRenderer = null;
 let isHost = true;
 const runGame = (data) => {
