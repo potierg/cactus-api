@@ -1,0 +1,6 @@
+{
+    "hostUrl": "http://192.168.224.109",
+    "socketPort": 3030,
+    "apiPort": 8080,
+    "clientPort": 3000
+}
