@@ -70,7 +70,7 @@ export class HomePage {
         createGameButton.on('pointerout', () => {
             this.pointer.visible = false;
         });
-        createGameButton.on('click', () => {
+        createGameButton.on('pointerdown', () => {
             this.homePageCallback('createGame');
         });
 

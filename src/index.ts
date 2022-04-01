@@ -36,6 +36,10 @@ app.post( "/game/player/new", ( req, res ) => {
         return;
     }
     const playerId: number = gameServer.addPlayer(req.body.gameId, req.body.socketId, req.body.playerName);
+    if (playerId === null) {
+        res.send({playerId: null});
+        return;
+    }
     res.send({playerId, name: req.body.playerName, secretKey: gameServer.getSecretPlayerKey(req.body.gameId, playerId)});
 });
 

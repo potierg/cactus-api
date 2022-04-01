@@ -56,6 +56,10 @@ app.post("/game/player/new", (req, res) => {
         return;
     }
     const playerId = gameServer.addPlayer(req.body.gameId, req.body.socketId, req.body.playerName);
+    if (playerId === null) {
+        res.send({ playerId: null });
+        return;
+    }
     res.send({ playerId, name: req.body.playerName, secretKey: gameServer.getSecretPlayerKey(req.body.gameId, playerId) });
 });
 app.post("/game/start", (req, res) => {
@@ -76,7 +80,7 @@ app.get('/', function (request, response) {
     response.sendFile(__dirname + '/index.html');
 });
 // start the Express server
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`server started at localhost:${port}`);
 });
 //# sourceMappingURL=index.js.map

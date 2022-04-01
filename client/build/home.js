@@ -50,11 +50,16 @@ class Home {
     }
     joinPageCallback(playerName) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.playerInfos && this.playerInfos.playerId) {
+                return;
+            }
             this.joinPage.destroyPage();
             this.homePage.displayBackground();
             this.homePage.displayWaiting();
             const response = yield CactusApi_1.CactusApi.joinGame(this.gameId, playerName, this.socketId);
-            this.playerInfos = response;
+            if (response['playerId'] !== null) {
+                this.playerInfos = response;
+            }
             this.homePage.hideWaiting();
             this.playersListPage.display(this.gameId);
         });

@@ -79,7 +79,7 @@ class HomePage {
         createGameButton.on('pointerout', () => {
             this.pointer.visible = false;
         });
-        createGameButton.on('click', () => {
+        createGameButton.on('pointerdown', () => {
             this.homePageCallback('createGame');
         });
         /*const joinGameButton = this.createGameButton(joinGameButtonTexture, 0, 100);

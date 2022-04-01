@@ -747,11 +747,16 @@ class Home {
     }
     joinPageCallback(playerName) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.playerInfos && this.playerInfos.playerId) {
+                return;
+            }
             this.joinPage.destroyPage();
             this.homePage.displayBackground();
             this.homePage.displayWaiting();
             const response = yield CactusApi_1.CactusApi.joinGame(this.gameId, playerName, this.socketId);
-            this.playerInfos = response;
+            if (response['playerId'] !== null) {
+                this.playerInfos = response;
+            }
             this.homePage.hideWaiting();
             this.playersListPage.display(this.gameId);
         });
@@ -933,7 +938,7 @@ class HomePage {
         createGameButton.on('pointerout', () => {
             this.pointer.visible = false;
         });
-        createGameButton.on('click', () => {
+        createGameButton.on('pointerdown', () => {
             this.homePageCallback('createGame');
         });
         /*const joinGameButton = this.createGameButton(joinGameButtonTexture, 0, 100);
@@ -1068,7 +1073,7 @@ class JoinPage {
         this.joinButton.interactive = true;
         this.joinButton.visible = false;
         this.app.stage.addChild(this.joinButton);
-        this.joinButton.on('pointerdown', () => {
+        this.joinButton.on('pointerdown', (e) => {
             this.joinPageCallback(document.getElementById('playerNameInput').value);
         });
     }
@@ -1095,11 +1100,14 @@ class JoinPage {
                 this.hideJoinButton();
             }
         };
-        this.eventListeners['change'] = () => {
-            this.joinPageCallback(document.getElementById('playerNameInput').value);
+        this.eventListeners['enter'] = (key) => {
+            if (key.keyCode === 13 && document.getElementById('playerNameInput').value.length >= 1) {
+                document.removeEventListener('keydown', this.eventListeners['enter']);
+                this.joinPageCallback(document.getElementById('playerNameInput').value);
+            }
         };
         document.getElementById('playerNameInput').addEventListener('input', this.eventListeners['input']);
-        document.getElementById('playerNameInput').addEventListener('change', this.eventListeners['change']);
+        document.addEventListener('keydown', this.eventListeners['enter']);
     }
     destroyPage() {
         this.gameId.visible = false;
@@ -1107,7 +1115,6 @@ class JoinPage {
         this.joinButton.visible = false;
         document.getElementById('playerNameInput').hidden = true;
         document.getElementById('playerNameInput').removeEventListener('input', this.eventListeners['input']);
-        document.getElementById('playerNameInput').removeEventListener('change', this.eventListeners['change']);
     }
 }
 exports.JoinPage = JoinPage;

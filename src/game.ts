@@ -34,6 +34,12 @@ export class Game {
 
     // Add player in game, generate player ID and refresh player List
     addPlayer(socketId: string, playerName: string): number {
+        if (Object.values(this.playerSockets).indexOf(socketId) !== -1) {
+            console.log(socketId, this.playerSockets, Object.values(this.playerSockets));
+            return null;
+        } else {
+            console.log('create player');
+        }
         const playerId: number = Math.floor(Math.random() * 100);
         this.players[playerId] = new Player(playerId, socketId, playerName);
         this.playerSockets[playerId] = socketId;

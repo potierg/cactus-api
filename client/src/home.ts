@@ -46,12 +46,18 @@ export class Home {
     }
 
    async joinPageCallback(playerName) {
+        if (this.playerInfos && this.playerInfos.playerId) {
+            return;
+        }
+
        this.joinPage.destroyPage();
        this.homePage.displayBackground();
        this.homePage.displayWaiting();
 
        const response = await CactusApi.joinGame(this.gameId, playerName, this.socketId);
-       this.playerInfos = response;
+       if (response['playerId'] !== null) {
+        this.playerInfos = response;
+       }
 
        this.homePage.hideWaiting();
        this.playersListPage.display(this.gameId);

@@ -15,6 +15,9 @@ export class GameServer {
     }
 
     onSocketEvent(eventType: string, data: any): void {
+        if (!this.games[data.gameId]) {
+            return;
+        }
         switch(eventType) {
             case 'startGame':
                 this.games[data.gameId].revealTwoFirstCards(data.playerId);
