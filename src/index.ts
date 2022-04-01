@@ -1,16 +1,17 @@
-import express from "express";
+import * as express from "express";
+import * as socketio from "socket.io";
+import * as http from "http";
 import { GameServer } from "./gameServer";
-import { Server } from "socket.io";
 import cors from 'cors';
 import bodyParser from "body-parser";
 
 import config from '../environment/environment.json';
 
-const app = express();
+const app = express.default();
 const port = process.env.PORT || config.apiPort; // default port to listen
 
-const io = new Server(config.socketPort, { cors: { origin: '*' } });
-
+const server = http.createServer(app);
+const io = new socketio.Server(server);
 const gameServer = new GameServer(io);
 
 app.use(cors());
