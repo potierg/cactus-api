@@ -14,17 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CactusApi = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const apiUrl = 'localhost';
 class CactusApi {
     static newGame() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield (0, node_fetch_1.default)(`${apiUrl}/game/new`, { method: 'POST' });
+            const response = yield (0, node_fetch_1.default)(`/game/new`, { method: 'POST' });
             return +(yield response.json())['gameId'];
         });
     }
     static joinGame(gameId, playerName, socketId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield (0, node_fetch_1.default)(`${apiUrl}/game/player/new`, { method: 'POST', headers: {
+            const response = yield (0, node_fetch_1.default)(`/game/player/new`, { method: 'POST', headers: {
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({
                     gameId,
@@ -36,7 +35,7 @@ class CactusApi {
     }
     static runGame(gameId) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield (0, node_fetch_1.default)(`${apiUrl}/game/start`, { method: 'POST', headers: {
+            yield (0, node_fetch_1.default)(`/game/start`, { method: 'POST', headers: {
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({
                     gameId
