@@ -34,7 +34,7 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const environment_json_1 = __importDefault(require("../environment/environment.json"));
 const app = express.default();
-const port = process.env.PORT || environment_json_1.default.apiPort; // default port to listen
+const port = process.env.PORT || environment_json_1.default.apiPort;
 const server = http.createServer(app);
 const io = new socketio.Server(server);
 const gameServer = new gameServer_1.GameServer(io);
@@ -61,6 +61,15 @@ app.post("/game/start", (req, res) => {
     }
     gameServer.startGame(req.body.gameId);
     res.send({});
+});
+app.use(express.static('release', {
+    index: false,
+    immutable: true,
+    cacheControl: true,
+    maxAge: "30d"
+}));
+app.get('/', function (request, response) {
+    response.sendFile(__dirname + '/index.html');
 });
 // start the Express server
 app.listen(port, () => {

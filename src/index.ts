@@ -8,10 +8,16 @@ import bodyParser from "body-parser";
 import config from '../environment/environment.json';
 
 const app = express.default();
-const port = process.env.PORT || config.apiPort; // default port to listen
+
+const port = process.env.PORT || config.apiPort;
 
 const server = http.createServer(app);
-const io = new socketio.Server(server);
+const io = new socketio.Server(server, {
+    cors: {
+        origin: ["http://localhost:5000", "sheltered-ravine-51287.herokuapp.com"],
+    },
+});
+
 const gameServer = new GameServer(io);
 
 app.use(cors());
@@ -40,6 +46,17 @@ app.post( "/game/start", ( req, res ) => {
     }
     gameServer.startGame(req.body.gameId);
     res.send({});
+});
+
+app.use(express.static('release',{
+    index: false, 
+    immutable: true, 
+    cacheControl: true,
+    maxAge: "30d"
+}));
+
+app.get('/', function(request, response) {
+    response.sendFile(__dirname+'/index.html')
 });
 
 // start the Express server
