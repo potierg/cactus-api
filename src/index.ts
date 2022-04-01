@@ -59,7 +59,8 @@ app.get('/', function(request, response) {
     response.sendFile(__dirname+'/index.html')
 });
 
+
 // start the Express server
-app.listen( port, () => {
+server.listen(port, () => {
     console.log( `server started at localhost:${ port }` );
-} );
+});
