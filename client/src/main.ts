@@ -4,7 +4,7 @@ import { Cactus } from "./cactus";
 import { GameRenderer } from "./gameRenderer";
 import { App } from "./app";
 
-const socket = io('sheltered-ravine-51287.herokuapp.com');
+const socket = io();
 let homeRenderer: Home = null;
 let isHost = true;
 
