@@ -39,6 +39,6 @@ app.post("/game/start", (req, res) => {
 });
 // start the Express server
 app.listen(port, () => {
-    console.log(`server started at ${environment_json_1.default.hostUrl}:${port}`);
+    console.log(`server started at localhost:${port}`);
 });
 //# sourceMappingURL=index.js.map

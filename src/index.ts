@@ -43,5 +43,5 @@ app.post( "/game/start", ( req, res ) => {
 
 // start the Express server
 app.listen( port, () => {
-    console.log( `server started at ${config.hostUrl}:${ port }` );
+    console.log( `server started at localhost:${ port }` );
 } );
