@@ -75,7 +75,7 @@ class JoinPage {
         this.joinButton.interactive = true;
         this.joinButton.visible = false;
         this.app.stage.addChild(this.joinButton);
-        this.joinButton.on('pointerdown', () => {
+        this.joinButton.on('pointerdown', (e) => {
             this.joinPageCallback(document.getElementById('playerNameInput').value);
         });
     }
@@ -102,11 +102,14 @@ class JoinPage {
                 this.hideJoinButton();
             }
         };
-        this.eventListeners['change'] = () => {
-            this.joinPageCallback(document.getElementById('playerNameInput').value);
+        this.eventListeners['enter'] = (key) => {
+            if (key.keyCode === 13 && document.getElementById('playerNameInput').value.length >= 1) {
+                document.removeEventListener('keydown', this.eventListeners['enter']);
+                this.joinPageCallback(document.getElementById('playerNameInput').value);
+            }
         };
         document.getElementById('playerNameInput').addEventListener('input', this.eventListeners['input']);
-        document.getElementById('playerNameInput').addEventListener('change', this.eventListeners['change']);
+        document.addEventListener('keydown', this.eventListeners['enter']);
     }
     destroyPage() {
         this.gameId.visible = false;
@@ -114,7 +117,6 @@ class JoinPage {
         this.joinButton.visible = false;
         document.getElementById('playerNameInput').hidden = true;
         document.getElementById('playerNameInput').removeEventListener('input', this.eventListeners['input']);
-        document.getElementById('playerNameInput').removeEventListener('change', this.eventListeners['change']);
     }
 }
 exports.JoinPage = JoinPage;
